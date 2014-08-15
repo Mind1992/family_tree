@@ -1,3 +1,4 @@
+require 'pry'
 require 'bundler/setup'
 Bundler.require(:default)
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
@@ -15,23 +16,20 @@ def menu
     puts 'Press l to list out the family members.'
     puts 'Press m to add who someone is married to.'
     puts 'Press s to see who someone is married to.'
-    puts "Press p to create child-parent relationships"
+    puts "Press r to create child-parent relationships"
+    puts "Press c to list the children of a person"
+    puts "Press p to list the parents of a person"
     puts 'Press e to exit.'
     choice = gets.chomp
-
     case choice
-    when 'a'
-      add_person
-    when 'l'
-      list
-    when 'm'
-      add_marriage
-    when 's'
-      show_marriage
-    when 'p'
-      create_relationship
-    when 'e'
-      exit
+      when 'a' then add_person
+      when 'l' then list
+      when 'm' then add_marriage
+      when 's' then show_marriage
+      when 'r' then create_relationship
+      when 'c' then list_children
+      when 'p' then list_parents
+      when 'e' then exit
     end
   end
 end
@@ -83,6 +81,19 @@ def create_relationship
   new_relationship3 = Relationship.create(person_id: child.id, parent_id: parent1.id)
   new_relationship3 = Relationship.create(person_id: child.id, parent_id: parent2.id)
   puts parent1.name + " and " + parent2.name + " have a child " + child.name
+end
+
+def list_parents
+  list
+  puts "Choose a person to see who their parents are: "
+  child = Person.find(gets.chomp)
+  parents = Relationship.where("relationships.child_id = #{child.id}")
+  puts "The parents of #{child.name} are:"
+  parents_array = []
+  parents.each do |parent|
+    Person.all.each { |p| parents_array << p.name if p.id == parent.id }
+  end
+  puts parents_array
 end
 
 menu
