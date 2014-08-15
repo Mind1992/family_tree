@@ -17,6 +17,17 @@ describe Person do
     end
   end
 
+  context '#child' do
+    it 'returns the person with their child_id' do
+      vladimir = Person.create(:name => 'Vladimir')
+      marina = Person.create(:name => 'Marina')
+      ivan = Person.create(:name => 'Ivan')
+      relationship1 = Relationship.create(person_id: vladimir.id, child_id: ivan.id)
+      relationship2 = Relationship.create(person_id: ivan.id, parent_id: vladimir.id)
+      relationship1.child_id.should eq ivan.id
+    end
+  end
+
   it "updates the spouse's id when it's spouse_id is changed" do
     earl = Person.create(:name => 'Earl')
     steve = Person.create(:name => 'Steve')

@@ -27,6 +27,8 @@ def menu
       add_marriage
     when 's'
       show_marriage
+    when 'p'
+      create_relationship
     when 'e'
       exit
     end
@@ -65,6 +67,17 @@ def show_marriage
   person = Person.find(gets.chomp)
   spouse = Person.find(person.spouse_id)
   puts person.name + " is married to " + spouse.name + "."
+end
+
+def create_relationship
+  list
+  puts 'What is the number of the first parent?'
+  parent1 = Person.find(gets.chomp)
+  puts 'What is the number of the second parent?'
+  parent2 = Person.find(gets.chomp)
+  puts 'What is the number of the child?'
+  child = Person.find(gets.chomp)
+
 end
 
 menu
