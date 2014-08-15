@@ -96,4 +96,17 @@ def list_parents
   puts parents_array
 end
 
+def list_children
+  list
+  puts "Choose a person to see who their child(ren) is(are): "
+  parent = Person.find(gets.chomp)
+  childs = Relationship.where("relationships.parent_id = #{parent.id}")
+  puts "The child(ren) of #{parent.name} is(are):"
+  childrens_array = []
+  childs.each do |child|
+    Person.all.each { |c| childrens_array << c.name if c.id == child.id }
+  end
+  puts childrens_array
+end
+
 menu
