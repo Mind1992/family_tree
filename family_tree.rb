@@ -15,6 +15,7 @@ def menu
     puts 'Press l to list out the family members.'
     puts 'Press m to add who someone is married to.'
     puts 'Press s to see who someone is married to.'
+    puts "Press p to create child-parent relationships"
     puts 'Press e to exit.'
     choice = gets.chomp
 
@@ -77,7 +78,11 @@ def create_relationship
   parent2 = Person.find(gets.chomp)
   puts 'What is the number of the child?'
   child = Person.find(gets.chomp)
-
+  new_relationship = Relationship.create(person_id: parent1.id, child_id: child.id)
+  new_relationship2 = Relationship.create(person_id: parent2.id, child_id: child.id)
+  new_relationship3 = Relationship.create(person_id: child.id, parent_id: parent1.id)
+  new_relationship3 = Relationship.create(person_id: child.id, parent_id: parent2.id)
+  puts parent1.name + " and " + parent2.name + " have a child " + child.name
 end
 
 menu
